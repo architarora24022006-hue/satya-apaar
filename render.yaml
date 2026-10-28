@@ -1,9 +1,13 @@
 services:
+  # =========================================================================
+  # 1. SATYA-APAAR FASTAPI BACKEND (Python Web Service)
+  # =========================================================================
   - type: web
     name: satya-apaar-backend
     runtime: python
-    buildCommand: "pip install -r backend/requirements.txt"
-    startCommand: "cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    rootDir: backend
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.9
@@ -15,3 +19,21 @@ services:
         value: "/api/v1"
       - key: PROJECT_NAME
         value: "SATYA-APAAR"
+
+  # =========================================================================
+  # 2. SATYA-APAAR NEXT.JS FRONTEND (Node Web Service)
+  # =========================================================================
+  - type: web
+    name: satya-apaar-frontend
+    runtime: node
+    rootDir: frontend
+    buildCommand: "npm install && npm run build"
+    startCommand: "npm run start -- -p $PORT -H 0.0.0.0"
+    envVars:
+      - key: NODE_VERSION
+        value: 20.18.0
+      - key: NEXT_PUBLIC_API_URL
+        fromService:
+          type: web
+          name: satya-apaar-backend
+          property: host
