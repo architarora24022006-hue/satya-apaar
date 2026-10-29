@@ -1,4 +1,5 @@
 import uuid
+from typing import Optional
 from datetime import datetime, date, timezone
 from sqlalchemy import Boolean, Column, Date, DateTime, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import relationship
