@@ -1,5 +1,5 @@
-const rawBase = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
-export const API_BASE = rawBase.startsWith("http") ? rawBase : `https://${rawBase}`;
+const rawBase = process.env.NEXT_PUBLIC_API_URL || "";
+export const API_BASE = rawBase ? (rawBase.startsWith("http") ? rawBase : `https://${rawBase}`) : "";
 
 export async function apiRequest<T>(
   endpoint: string,
